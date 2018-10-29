@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
+import java.util.Random;
 
 public class SampleView extends View {
 
@@ -32,7 +33,13 @@ public class SampleView extends View {
     protected void onDraw(Canvas cs) {
         super.onDraw(cs);
 
-        p.setColor(Color.BLUE);
+        Random rand = new Random();
+
+        int r = rand.nextInt(256);
+        int g = rand.nextInt(256);
+        int b = rand.nextInt(256);
+
+        p.setColor(Color.argb(255, r, g, b));
         p.setStyle(Paint.Style.FILL);
         cs.drawCircle(x, y, 50, p);
     }
