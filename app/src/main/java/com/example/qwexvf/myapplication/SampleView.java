@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class SampleView extends View {
 
-    float x,y;
+    float x,y, dx, dy;
     Paint p;
 
     public SampleView (Context ctx) {
@@ -18,6 +18,8 @@ public class SampleView extends View {
 
         x = 100;
         y = 100;
+        dx = 10;
+        dy = 10;
         p = new Paint();
     }
 
