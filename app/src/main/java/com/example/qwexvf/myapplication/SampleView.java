@@ -9,6 +9,7 @@ import android.view.View;
 import java.util.Random;
 
 public class SampleView extends View {
+    boolean draw = false;
 
     float x,y, dx, dy;
     Paint p;
@@ -27,6 +28,7 @@ public class SampleView extends View {
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
+        this.draw = true;
         x = ev.getX();
         y = ev.getY();
 
@@ -39,9 +41,11 @@ public class SampleView extends View {
         super.onDraw(cs);
         this.canvas = cs;
 
-        p.setColor(Color.argb(255, r, g, b));
-        p.setStyle(Paint.Style.FILL);
-        cs.drawCircle(x, y, 50, p);
+        if (this.draw) {
+            p.setColor(Color.argb(255, r, g, b));
+            p.setStyle(Paint.Style.FILL);
+            cs.drawCircle(x, y, 50, p);
+        }
     }
 
     public void changeColor() {
