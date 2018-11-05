@@ -12,6 +12,9 @@ public class SampleView extends View {
 
     float x,y, dx, dy;
     Paint p;
+    Canvas canvas;
+
+    int r,g,b;
 
     public SampleView (Context ctx) {
         super(ctx);
@@ -34,15 +37,18 @@ public class SampleView extends View {
 
     protected void onDraw(Canvas cs) {
         super.onDraw(cs);
-
-        Random rand = new Random();
-
-        int r = rand.nextInt(256);
-        int g = rand.nextInt(256);
-        int b = rand.nextInt(256);
+        this.canvas = cs;
 
         p.setColor(Color.argb(255, r, g, b));
         p.setStyle(Paint.Style.FILL);
         cs.drawCircle(x, y, 50, p);
+    }
+
+    public void changeColor() {
+        System.out.println("test");
+        Random rand = new Random();
+        r = rand.nextInt(256);
+        g = rand.nextInt(256);
+        b = rand.nextInt(256);
     }
 }

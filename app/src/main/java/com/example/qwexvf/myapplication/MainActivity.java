@@ -41,10 +41,14 @@ public class MainActivity extends Activity implements Runnable {
         Point p = new Point();
         dp.getSize(p);
 
-        if (sv.x < 0 || sv.x > p.x)
+        if (sv.x < 0 || sv.x > p.x) {
+            sv.changeColor();
             sv.dx = -sv.dx;
-        if (sv.y < 0 || sv.y > p.y)
+        }
+        if (sv.y < 0 || sv.y > p.y) {
+            sv.changeColor();
             sv.dy = -sv.dy;
+        }
 
         sv.x += sv.dx;
         sv.y += sv.dy;
