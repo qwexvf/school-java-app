@@ -4,21 +4,41 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.MotionEvent;
 import android.view.View;
-import java.util.Random;
+import java.util.ArrayList;
+import com.example.qwexvf.myapplication.Points;
+
 
 public class SampleView extends View {
-    boolean draw = false;
+    int counter = 0;
+    float x, y, dx, dy;
 
-    float x,y, dx, dy;
     Paint p;
+
     Canvas canvas;
 
-    int r,g,b;
+    ArrayList<Points> points = new ArrayList<Points>();
 
-    public SampleView (Context ctx) {
+    int[][] circles2 = {};
+
+    int r, g, b;
+
+    int colors[][] = {
+            {0, 0, 0},
+            {255, 255, 255},
+            {255, 0, 0},
+            {0, 255, 0},
+            {0, 0, 255},
+            {255, 255, 0},
+            {0, 255, 255},
+            {255, 0, 255}
+    };
+
+
+
+    public SampleView(Context ctx) {
         super(ctx);
+        System.out.println(" created");
 
         x = 100;
         y = 100;
@@ -27,32 +47,29 @@ public class SampleView extends View {
         p = new Paint();
     }
 
-    public boolean onTouchEvent(MotionEvent ev) {
-        this.draw = true;
-        x = ev.getX();
-        y = ev.getY();
-
-        this.invalidate();
-
-        return true;
-    }
-
     protected void onDraw(Canvas cs) {
         super.onDraw(cs);
         this.canvas = cs;
 
-        if (this.draw) {
+        System.out.println("ondraw");
+
+        r = this.colors[this.counter][0];
+        g = this.colors[this.counter][1];
+        b = this.colors[this.counter][2];
+
+        for (int i = 0; i < points.size(); i++) {
             p.setColor(Color.argb(255, r, g, b));
             p.setStyle(Paint.Style.FILL);
-            cs.drawCircle(x, y, 50, p);
+
+            Points point = points.get(i);
+            cs.drawCircle(point.x, point.y, 50, p);
         }
     }
 
     public void changeColor() {
-        System.out.println("test");
-        Random rand = new Random();
-        r = rand.nextInt(256);
-        g = rand.nextInt(256);
-        b = rand.nextInt(256);
+        this.counter += 1;
+
+        if (this.counter >= this.colors.length)
+            this.counter = 0;
     }
 }

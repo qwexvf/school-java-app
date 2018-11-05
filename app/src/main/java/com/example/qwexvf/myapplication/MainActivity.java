@@ -3,9 +3,9 @@ package com.example.qwexvf.myapplication;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -14,6 +14,8 @@ public class MainActivity extends Activity implements Runnable {
     SampleView sv;
     Handler handler;
 
+    LinearLayout ll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,39 +23,43 @@ public class MainActivity extends Activity implements Runnable {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        LinearLayout ll = new LinearLayout(this);
-        setContentView(ll);
+        this.ll = new LinearLayout(this);
+        setContentView(this.ll);
 
         handler = new Handler();
         handler.postDelayed(this, 10);
-
-        sv = new SampleView(this);
-
-        ll.addView(sv);
     }
 
     @Override
     public void run() {
-        WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         Display dp = wm.getDefaultDisplay();
 
         Point p = new Point();
         dp.getSize(p);
 
-        if (sv.x < 0 || sv.x > p.x) {
-            sv.changeColor();
-            sv.dx = -sv.dx;
-        }
-        if (sv.y < 0 || sv.y > p.y) {
-            sv.changeColor();
-            sv.dy = -sv.dy;
-        }
+        if (sv != null) {
+            for (int i=0; i< sv.points.size(); i++) {
+                Points point = sv.points.get(i);
 
-        sv.x += sv.dx;
-        sv.y += sv.dy;
+                if (point.x < 0 || point.x > p.x) {
+                    sv.changeColor();
+                    point.dx = -point.dx;
+                }
+                if (point.y < 0 || point.y > p.y) {
+                    sv.changeColor();
+                    point.dy = -point.dy;
+                }
 
-        sv.invalidate();
+                point.x += point.dx;
+                point.y += point.dy;
+
+                sv.points.set(i, point);
+            }
+
+            sv.invalidate();
+        }
 
         handler.postDelayed(this, 10);
     }
@@ -62,5 +68,24 @@ public class MainActivity extends Activity implements Runnable {
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(this);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == event.ACTION_DOWN) {
+            if ( sv == null) {
+                sv = new SampleView(this);
+
+                sv.x = event.getX();
+                sv.y = event.getY();
+
+                this.ll.addView(sv);
+             } else {
+                Points p = new Points(event.getX(), event.getY());
+                sv.points.add(p);
+            }
+        }
+
+        return true;
     }
 }
