@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.View;
 import java.util.ArrayList;
+import java.util.Random;
+
 import com.example.qwexvf.myapplication.Points;
 
 
@@ -53,17 +56,25 @@ public class SampleView extends View {
 
         System.out.println("ondraw");
 
-        r = this.colors[this.counter][0];
-        g = this.colors[this.counter][1];
-        b = this.colors[this.counter][2];
+
+        //r = this.colors[this.counter][0];
+        //g = this.colors[this.counter][1];
+        //b = this.colors[this.counter][2];
 
         for (int i = 0; i < points.size(); i++) {
-            p.setColor(Color.argb(255, r, g, b));
+            Points point = points.get(i);
+
+            p.setColor(Color.argb(255, point.r, point.g, point.b));
             p.setStyle(Paint.Style.FILL);
 
-            Points point = points.get(i);
             cs.drawCircle(point.x, point.y, 50, p);
         }
+
+        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
+
+        Rect r = new Rect(0,0,50,50);
+        cs.drawRect(r, p);
     }
 
     public void changeColor() {

@@ -1,5 +1,7 @@
 package com.example.qwexvf.myapplication;
 
+import java.util.Random;
+
 public class Points {
     float x = 0;
     float y = 0;
@@ -13,7 +15,13 @@ public class Points {
         this.x = x;
         this.y = y;
 
-        dx = 10;
-        dy = 10;
+        Random rand = new Random();
+
+        dx = rand.nextInt(21) - 10;
+        dy = rand.nextInt(21) - 10;
+
+         r = rand.nextInt(256);
+         g = rand.nextInt(256);
+         b = rand.nextInt(256);
     }
 }

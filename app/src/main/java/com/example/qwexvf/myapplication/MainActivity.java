@@ -26,6 +26,9 @@ public class MainActivity extends Activity implements Runnable {
         this.ll = new LinearLayout(this);
         setContentView(this.ll);
 
+        sv = new SampleView(this);
+
+        this.ll.addView(sv);
         handler = new Handler();
         handler.postDelayed(this, 10);
     }
@@ -40,7 +43,7 @@ public class MainActivity extends Activity implements Runnable {
         dp.getSize(p);
 
         if (sv != null) {
-            for (int i=0; i< sv.points.size(); i++) {
+            for (int i = 0; i < sv.points.size(); i++) {
                 Points point = sv.points.get(i);
 
                 if (point.x < 0 || point.x > p.x) {
@@ -72,18 +75,13 @@ public class MainActivity extends Activity implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == event.ACTION_DOWN) {
-            if ( sv == null) {
-                sv = new SampleView(this);
+        if (event.getX() < 50 && event.getY() < 50) {
+            sv.points.clear();
+        }
 
-                sv.x = event.getX();
-                sv.y = event.getY();
-
-                this.ll.addView(sv);
-             } else {
-                Points p = new Points(event.getX(), event.getY());
-                sv.points.add(p);
-            }
+        else if (event.getAction() == event.ACTION_DOWN) {
+            Points p = new Points(event.getX(), event.getY());
+            sv.points.add(p);
         }
 
         return true;
