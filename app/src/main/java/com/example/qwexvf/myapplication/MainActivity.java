@@ -4,86 +4,34 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements Runnable {
-    SampleView sv;
-    Handler handler;
-
+public class MainActivity extends AppCompatActivity {
     LinearLayout ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         this.ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        setContentView(ll);
         setContentView(this.ll);
 
-        sv = new SampleView(this);
+        TextView tv = new TextView(this);
+        tv.setText("おはよう");
+        Button bt = new Button(this);
+        bt.setText("ボタンを押して");
 
-        this.ll.addView(sv);
-        handler = new Handler();
-        handler.postDelayed(this, 10);
-    }
-
-    @Override
-    public void run() {
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-
-        Display dp = wm.getDefaultDisplay();
-
-        Point p = new Point();
-        dp.getSize(p);
-
-        if (sv != null) {
-            for (int i = 0; i < sv.points.size(); i++) {
-                Points point = sv.points.get(i);
-
-                if (point.x < 0 || point.x > p.x) {
-                    sv.changeColor();
-                    point.dx = -point.dx;
-                }
-                if (point.y < 0 || point.y > p.y) {
-                    sv.changeColor();
-                    point.dy = -point.dy;
-                }
-
-                point.x += point.dx;
-                point.y += point.dy;
-
-                sv.points.set(i, point);
-            }
-
-            sv.invalidate();
-        }
-
-        handler.postDelayed(this, 10);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(this);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getX() < 50 && event.getY() < 50) {
-            sv.points.clear();
-        }
-
-        else if (event.getAction() == event.ACTION_DOWN) {
-            Points p = new Points(event.getX(), event.getY());
-            sv.points.add(p);
-        }
-
-        return true;
+        ll.addView(tv);
+        ll.addView(bt);
     }
 }
+
