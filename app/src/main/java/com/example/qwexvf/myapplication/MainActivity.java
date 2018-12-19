@@ -12,8 +12,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TableRow[] tr = new TableRow[5];
 
     TextView textView;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
             {"", "0", "", "="},
     };
 
+    String sum = "0";
+
     @SuppressLint("RtlHardcoded")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
         ll.setOrientation(LinearLayout.VERTICAL);
 
         textView = new TextView(this);
-        textView.setText("0");
-
+        textView.setText(sum);
+        textView.setTextSize(60);
         textView.setGravity(Gravity.RIGHT);
-
 
         TableLayout tl = new TableLayout(this);
 
@@ -54,12 +56,38 @@ public class MainActivity extends AppCompatActivity {
             for (int j = 0; j < 4; j++) {
                 buttons[i][j] = new Button(this);
                 buttons[i][j].setText(actions[i][j]);
+                buttons[i][j].setWidth(270);
+                buttons[i][j].setHeight(200);
+                buttons[i][j].setTextSize(30);
+                buttons[i][j].setOnClickListener(this);
                 tr[i].addView(buttons[i][j]);
+                if (buttons[i][j].getText() == "") {
+                    buttons[i][j].setVisibility(View.INVISIBLE);
+                }
             }
 
             tl.addView(tr[i]);
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.equals(buttons[0][0])) {
+            textView.setText("0");
+            sum = "0";
+        } else if (v.equals(buttons[5][4])) {
+            String[] numbers = textView.getText().split("+", 0);
+            sum = "";
+        } else {
+            for (Button[] button : buttons) {
+                for (Button aButton : button) {
+                    if (v.equals(aButton)) {
+                        System.out.println(aButton.getText());
+                        String number = textView.getText() + (String) aButton.getText();
+                        textView.setText(number);
+                    }
+                }
+            }
+        }
+    }
 }
-
