@@ -17,12 +17,9 @@ public class SampleView extends View {
     float x, y, dx, dy;
 
     Paint p;
-
     Canvas canvas;
 
-    ArrayList<Points> points = new ArrayList<Points>();
-
-    int[][] circles2 = {};
+    ArrayList<Points> points = new ArrayList<>();
 
     int r, g, b;
 
@@ -37,8 +34,6 @@ public class SampleView extends View {
             {255, 0, 255}
     };
 
-
-
     public SampleView(Context ctx) {
         super(ctx);
         System.out.println(" created");
@@ -52,14 +47,6 @@ public class SampleView extends View {
 
     protected void onDraw(Canvas cs) {
         super.onDraw(cs);
-        this.canvas = cs;
-
-        System.out.println("ondraw");
-
-
-        //r = this.colors[this.counter][0];
-        //g = this.colors[this.counter][1];
-        //b = this.colors[this.counter][2];
 
         for (int i = 0; i < points.size(); i++) {
             Points point = points.get(i);

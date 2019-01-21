@@ -20,8 +20,8 @@ public class Points {
         dx = rand.nextInt(21) - 10;
         dy = rand.nextInt(21) - 10;
 
-         r = rand.nextInt(256);
-         g = rand.nextInt(256);
-         b = rand.nextInt(256);
+        r = rand.nextInt(256);
+        g = rand.nextInt(256);
+        b = rand.nextInt(256);
     }
 }
