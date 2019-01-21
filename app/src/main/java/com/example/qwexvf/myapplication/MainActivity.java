@@ -1,83 +1,46 @@
 package com.example.qwexvf.myapplication;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.*;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements Runnable {
-    SampleView sv;
-    Handler handler;
+public class MainActivity extends AppCompatActivity {
 
     LinearLayout ll;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    TextView[] tv = new TextView[3];
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         this.ll = new LinearLayout(this);
+        this.ll.setOrientation(LinearLayout.VERTICAL);
         setContentView(this.ll);
 
-        sv = new SampleView(this);
-
-        this.ll.addView(sv);
-        handler = new Handler();
-        handler.postDelayed(this, 10);
-    }
-
-    @Override
-    public void run() {
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-
-        Display dp = wm.getDefaultDisplay();
-
-        Point p = new Point();
-        dp.getSize(p);
-
-        if (sv != null) {
-            for (int i = 0; i < sv.points.size(); i++) {
-                Points point = sv.points.get(i);
-
-                if (point.x < 0 || point.x > p.x) {
-                    sv.changeColor();
-                    point.dx = -point.dx;
-                }
-                if (point.y < 0 || point.y > p.y) {
-                    sv.changeColor();
-                    point.dy = -point.dy;
-                }
-
-                point.x += point.dx;
-                point.y += point.dy;
-
-                sv.points.set(i, point);
-            }
-
-            sv.invalidate();
+        for (int i = 0; i < tv.length; i++) {
+            tv[i] = new TextView(this);
+            tv[i].setText("おはよう");
         }
 
-        handler.postDelayed(this, 10);
-    }
+        tv[0].setTextColor(Color.BLACK);
+        tv[1].setTextColor(Color.BLUE);
+        tv[2].setTextColor(Color.RED);
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(this);
-    }
+        tv[0].setBackgroundColor(Color.WHITE);
+        tv[1].setBackgroundColor(Color.LTGRAY);
+        tv[2].setBackgroundColor(Color.WHITE);
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getX() < 50 && event.getY() < 50) sv.points.clear(); /* クリアボタン */
+        tv[0].setTextSize(14);
+        tv[1].setTextSize(16);
+        tv[2].setTextSize(18);
 
-        else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Points p = new Points(event.getX(), event.getY());
-            sv.points.add(p);
+        for (TextView aTv : tv) {
+            this.ll.addView(aTv);
         }
-
-        return true;
     }
 }
