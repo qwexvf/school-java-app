@@ -1,11 +1,14 @@
 package com.example.qwexvf.myapplication;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout ll;
 
-    TextView[] tv = new TextView[3];
+    TextView tv;
+    CheckBox cb1, cb2;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,25 +26,31 @@ public class MainActivity extends AppCompatActivity {
         this.ll.setOrientation(LinearLayout.VERTICAL);
         setContentView(this.ll);
 
-        for (int i = 0; i < tv.length; i++) {
-            tv[i] = new TextView(this);
-            tv[i].setText("おはよう");
-        }
+        tv = new TextView(this);
+        tv.setText("交通手段は？");
 
-        tv[0].setTextColor(Color.BLACK);
-        tv[1].setTextColor(Color.BLUE);
-        tv[2].setTextColor(Color.RED);
+        cb1 = new CheckBox(this);
+        cb2 = new CheckBox(this);
 
-        tv[0].setBackgroundColor(Color.WHITE);
-        tv[1].setBackgroundColor(Color.LTGRAY);
-        tv[2].setBackgroundColor(Color.WHITE);
+        cb1.setText("車");
+        cb2.setText("電車");
 
-        tv[0].setTextSize(14);
-        tv[1].setTextSize(16);
-        tv[2].setTextSize(18);
+        ll.addView(tv);
+        ll.addView(cb1);
+        ll.addView(cb2);
 
-        for (TextView aTv : tv) {
-            this.ll.addView(aTv);
+        cb1.setOnCheckedChangeListener(new CheckedChangeListener());
+        cb2.setOnCheckedChangeListener(new CheckedChangeListener());
+    }
+
+    class CheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked) {
+                tv.setText(buttonView.getText() + "を選択しました。");
+            } else {
+                tv.setText(buttonView.getText() + "の選択をやめました。");
+            }
+
         }
     }
 }
