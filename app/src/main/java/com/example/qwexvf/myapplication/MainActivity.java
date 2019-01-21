@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll;
 
     TextView tv;
-    CheckBox cb1, cb2;
+    CheckBox[] checkBoxes = new CheckBox[4];
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         tv = new TextView(this);
         tv.setText("交通手段は？");
-
-        cb1 = new CheckBox(this);
-        cb2 = new CheckBox(this);
-
-        cb1.setText("車");
-        cb2.setText("電車");
-
         ll.addView(tv);
-        ll.addView(cb1);
-        ll.addView(cb2);
 
-        cb1.setOnCheckedChangeListener(new CheckedChangeListener());
-        cb2.setOnCheckedChangeListener(new CheckedChangeListener());
+        for (int i = 0; i < checkBoxes.length; i++) {
+            checkBoxes[i] = new CheckBox(this);
+            checkBoxes[i].setOnCheckedChangeListener(new CheckedChangeListener());
+            ll.addView(checkBoxes[i]);
+        }
+
+        checkBoxes[0].setText("車");
+        checkBoxes[1].setText("電車");
+        checkBoxes[2].setText("自転車");
+        checkBoxes[3].setText("徒歩");
     }
 
     class CheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
