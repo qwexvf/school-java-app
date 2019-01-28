@@ -2,54 +2,57 @@ package com.example.qwexvf.myapplication;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout ll;
-
-    TextView tv;
-    CheckBox[] checkBoxes = new CheckBox[4];
+    ImageView iv;
+    Bitmap bmp1, bmp1a, bmp2, bmp2a;
+    Button bt;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        setContentView(ll);
 
-        this.ll = new LinearLayout(this);
-        this.ll.setOrientation(LinearLayout.VERTICAL);
-        setContentView(this.ll);
 
-        tv = new TextView(this);
-        tv.setText("交通手段は？");
-        ll.addView(tv);
+        bmp1a = BitmapFactory.decodeResource(getResources(),
+                R.drawable.droid1);
 
-        for (int i = 0; i < checkBoxes.length; i++) {
-            checkBoxes[i] = new CheckBox(this);
-            checkBoxes[i].setOnCheckedChangeListener(new CheckedChangeListener());
-            ll.addView(checkBoxes[i]);
-        }
+        bmp2a = BitmapFactory.decodeResource(getResources(),
+                R.drawable.droid2);
 
-        checkBoxes[0].setText("車");
-        checkBoxes[1].setText("電車");
-        checkBoxes[2].setText("自転車");
-        checkBoxes[3].setText("徒歩");
-    }
+        bmp1 = Bitmap.createScaledBitmap(bmp1a, 300, 300,
+                false);
+        bmp2 = Bitmap.createScaledBitmap(bmp2a, 300, 300,
+                false);
 
-    class CheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked) {
-                tv.setText(buttonView.getText() + "を選択しました。");
-            } else {
-                tv.setText(buttonView.getText() + "の選択をやめました。");
+        iv = new ImageView(this);
+        iv.setImageBitmap(bmp1);
+
+        bt = new Button(this);
+        bt.setText("ボタンを押して");
+        bt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                bt.setText("ボタンが押された! ");
+                iv.setImageBitmap(bmp2);
             }
+        });
 
-        }
+        ll.addView(bt);
+        ll.addView(iv);
     }
 }
